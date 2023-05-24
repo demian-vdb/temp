@@ -6,7 +6,7 @@ chmod 0600 /home/vagrant/.pgpass
 #get ROOM_ID and the ACCESS_TOKEN from Admin
 TOKEN=$(sudo -u vagrant -E psql -U synapse_user -d synapse --no-align --tuples-only -c " SELECT token FROM access_tokens WHERE user_id='@admin:theoracle.thematrix.local' AND used='t';")
 ROOM_ID=$(sudo -u vagrant -E psql -U synapse_user -d synapse --no-align --tuples-only -c "SELECT room_id FROM rooms WHERE creator='@admin:theoracle.thematrix.local'")
-
+DATETIME=$(date +'%H:%M %B %d %Y')
 #Create and configure the shutdown script
 touch /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
@@ -17,7 +17,7 @@ curl --header "Authorization: Bearer '$TOKEN'" \
      --request POST \
      --data '\''{
         "msgtype": "m.text",
-        "body": "Server is shutting down in 30 seconds"
+        "body": "The server went down at '$DATETIME'."
      }'\'' \
      http://localhost:8008/_matrix/client/r0/rooms/\'$ROOM_ID'/send/m.room.message' > /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
