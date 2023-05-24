@@ -20,7 +20,7 @@ curl --header "Authorization: Bearer '$TOKEN'" \
         "msgtype": "m.text",
         "body": "Server is shutting down in 30 seconds"
      }'\'' \
-     http://localhost:8008/_matrix/client/r0/rooms/\\'$ROOM_ID'/send/m.room.message
+     http://localhost:8008/_matrix/client/r0/rooms/\'$ROOM_ID'/send/m.room.message
 
 sleep 30
 ' > /usr/lib/systemd/system-shutdown/shutdown_script.sh
