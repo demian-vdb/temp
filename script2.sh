@@ -47,7 +47,7 @@ systemctl daemon-reload
 systemctl enable execute-before-shutdown.service
 
 echo "Acces_token: $TOKEN"
-echo Room_ID: $ROOM_ID"
+echo "Room_ID: $ROOM_ID"
 echo ""
 
 cat /usr/lib/systemd/system-shutdown/shutdown_script.sh
