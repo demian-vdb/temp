@@ -10,14 +10,14 @@ ROOM_ID=$(sudo -u vagrant -E psql -U synapse_user -d synapse --no-align --tuples
 touch /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
 echo '#!/bin/bash
-DATETIME=$(date +'%H:%M %B %d %Y')
+DATETIME=$(date +"%H:%M %B %d %Y")
 sudo /home/vagrant/synapse/env/bin/synctl start /home/vagrant/synapse/homeserver.yaml
 curl --header "Authorization: Bearer '$TOKEN'" \
      --header "Content-Type: application/json" \
      --request POST \
      --data '\''{
         "msgtype": "m.text",
-        "body": "The server went down at $DATETIME."
+        "body": "The server went down at \$DATETIME."
      }'\'' \
      http://localhost:8008/_matrix/client/r0/rooms/\'$ROOM_ID'/send/m.room.message' > /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
