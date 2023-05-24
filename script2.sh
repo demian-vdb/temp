@@ -11,8 +11,7 @@ ROOM_ID=$(sudo -u vagrant -E psql -U synapse_user -d synapse --no-align --tuples
 touch /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
 echo '#!/bin/bash
-sleep 15
-
+sudo /home/vagrant/synapse/env/bin/synctl start /home/vagrant/synapse/homeserver.yaml
 curl --header "Authorization: Bearer '$TOKEN'" \
      --header "Content-Type: application/json" \
      --request POST \
@@ -20,24 +19,19 @@ curl --header "Authorization: Bearer '$TOKEN'" \
         "msgtype": "m.text",
         "body": "Server is shutting down in 30 seconds"
      }'\'' \
-     http://localhost:8008/_matrix/client/r0/rooms/\'$ROOM_ID'/send/m.room.message
-
-sleep 30
-' > /usr/lib/systemd/system-shutdown/shutdown_script.sh
+     http://localhost:8008/_matrix/client/r0/rooms/\'$ROOM_ID'/send/m.room.message' > /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
 chmod u+x /usr/lib/systemd/system-shutdown/shutdown_script.sh
 
 touch /etc/systemd/system/execute-before-shutdown.service
 
 echo '[Unit]
-Description=Execute custom script before system poweroff
+Description=My Script
 DefaultDependencies=no
-Before=shutdown.target 
+Before=shutdown.target
 
 [Service]
-Type=oneshot
-ExecStart=/usr/lib/systemd/system-shutdown/shutdown_script.sh
-TimeoutStartSec=0
+ExecStart=/bin/bash -c "sleep 15 && /usr/lib/systemd/system-shutdown/shutdown_script.sh"
 
 [Install]
 WantedBy=shutdown.target' > /etc/systemd/system/execute-before-shutdown.service
