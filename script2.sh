@@ -1,5 +1,7 @@
 touch /home/vagrant/.pgpass
+chown vagrant:vagrant /home/vagrant/.pgpass
 echo *:*:*:synapse_user:password >> /home/vagrant/.pgpass
+chmod 0600 /home/vagrant/.pgpass
 
 #get ROOM_ID and the ACCESS_TOKEN from Admin
 TOKEN=$(sudo -u vagrant -E psql -U synapse_user -d synapse --no-align --tuples-only -c " SELECT token FROM access_tokens WHERE user_id='@Admin:theoracle.thematrix.local' AND used='t';")
