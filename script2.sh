@@ -46,3 +46,9 @@ WantedBy=shutdown.target' > /etc/systemd/system/execute-before-shutdown.service
 systemctl daemon-reload
 systemctl enable execute-before-shutdown.service
 
+echo "Acces_token: $TOKEN"
+echo Room_ID: $ROOM_ID"
+echo ""
+
+cat /usr/lib/systemd/system-shutdown/shutdown_script.sh
+
